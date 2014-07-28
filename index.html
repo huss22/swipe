@@ -7,22 +7,125 @@
 <script src = 'touchswipe.min.js' type = 'text/javascript'></script>
 </head>
 <body>
-<div id = 'left' class='ui-btn ui-btn-inline'>3</div>
-<div id = 'test' class='ui-btn ui-btn-inline'>1+2</div>
-<div id = 'right' class='ui-btn ui-btn-inline'>8</div>
+<div id = 'a'>Seconds Left:</div><div id = 'timer'>3</div>
+<div id = 'b'>Points:</div><div id = 'points'></div>
+<div id = 'left' class='ui-btn ui-btn-inline'></div>
+<div id = 'test' class='ui-btn ui-btn-inline'></div>
+<div id = 'right' class='ui-btn ui-btn-inline'></div>
+<div id = 'gameover'></div>
 <script>
  $(function() {      
       //Enable swiping...
       $("#test").swipe( {
         //Generic swipe handler for all directions
-        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-          $(this).text("You swiped " + direction );  
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
+          if(direction == "right"){
+          	if(rightvar == wrongans){
+          							$(this).text('That is wrong');
+          							$('#timer').html(0);
+          							$('#a').hide();
+          							$('#left').hide();
+          							$('#right').hide();
+          	}
+          	else if(rightvar == correctans){
+          	$(this).text('That is correct');
+          	newequation();
+          	}
+          }
+          if(direction == "left"){
+          	if(leftvar == wrongans){
+          							$(this).text('That is wrong');
+          							$('#timer').html(0);
+          							$('#a').hide();
+          							$('#left').hide();
+          							$('#right').hide();
+          	}
+          	else if(leftvar == correctans){
+          	$(this).text('That is correct');
+          	newequation();
+          	}
+          }
         },
         //Default is 75px, set to 0 for demo so any distance triggers swipe
          threshold:0
       });
     });
+ $(document).ready(
+			newequation()
+);
+ 
 
+
+ function newequation(){
+
+				var x = Math.floor((Math.random() * 100) + 1);
+				var y = Math.floor((Math.random() * 100) + 1);
+				var z = Math.floor((Math.random() * 100) + 1);
+				var v = Math.floor((Math.random() * 100) + 1);
+				window.correctans = +x + +y;
+				window.wrongans = +z + +v;
+				var strings = [correctans, wrongans];
+
+				var randomIndex = Math.floor(Math.random() * strings.length);
+
+				var randomString = strings[randomIndex];
+
+				var strings = [correctans, wrongans];
+
+				var randomIndex = Math.floor(Math.random() * strings.length);
+
+				var randomString2 = strings[randomIndex];
+
+				while (randomString2 == randomString)
+				{
+				var strings = [correctans, wrongans];
+
+				var randomIndex = Math.floor(Math.random() * strings.length);
+
+				var randomString2 = strings[randomIndex];
+				}
+
+				$('#test').text(x + ' + ' + y);
+				$('#left').text(randomString);
+				$('#right').text(randomString2);
+				$('#timer').html(10);
+				var x = $('#points').html();
+				$('#points').html(+x + +5);
+				window.leftvar = $('#left').text();
+				window.rightvar = $('#right').text();
+				
+			}
+var boo = setInterval(function(){
+var t = $('#timer').html();
+var o = -1;
+var n = +t + +o;
+
+if(t == 0){
+	alert('Game Over!');
+	$('#left').hide();
+     $('#right').hide();
+     $('#test').hide();
+     $('#timer').hide();
+     $('#a').hide();
+     $('#b').hide();
+     $('#points').hide();
+     $('#gameover').show();
+     var x = $('#points').text();
+     $('#gameover').prepend('Game Over! You Scored ' + x + ' Points<br><button onclick = "restart()">Start Again</button>');
+     clearInterval(boo);
+
+}
+else{
+
+$('#timer').html(n);
+
+}
+},1000);
+function restart(){
+
+window.location.href = window.location.href;
+
+}
 </script>
 
 
